@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import datetime as dt
-from dateutil import relativedelta
 from scipy.optimize import curve_fit
 
 def dateTranslator(dateStr):
@@ -35,12 +34,10 @@ linspace = linspace[::-1]
 cumsum = np.cumsum(hist)/dateDelta(datesStr)
 lg_cumsum = np.log10(cumsum)
 
-popt, pcov = curve_fit(lineFunc, hist, lg_cumsum)
+popt, pcov = curve_fit(lineFunc, linspace, lg_cumsum)
 lineY = [lineFunc(x, popt[0], popt[1]) for x in linspace]
 
 plt.plot(linspace, lg_cumsum, "o")
 plt.plot(linspace, lineY)
 
 plt.show()
-print(hist)
-print(lg_cumsum)
