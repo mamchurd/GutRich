@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import math as math
 import matplotlib.pyplot as plt
 import datetime as dt
 from scipy.optimize import curve_fit
@@ -15,6 +16,12 @@ def dateDelta(datesStr):
 def lineFunc(x, k, b):
     return  - k*x + b;
 
+def lyambda(m, popt):
+    return 10**lineFunc(m, popt[0], popt[1])
+
+def probability(s, m, t, popt):
+    return (lyambda(m, popt)*t)**s * math.exp(-lyambda(m, popt)*t) / math.factorial(s)
+    
 file = "reports_list_12-25-20012021.xlsx"
 xl = pd.ExcelFile(file)
 df = xl.parse('Reports list')
@@ -41,3 +48,7 @@ plt.plot(linspace, lg_cumsum, "o")
 plt.plot(linspace, lineY)
 
 plt.show()
+P = probability(1, 5, 10, popt)
+print(P)
+
+#Посчитать кол-во сценариев при опр магинтуде опр кол-во раз при опр расстоянии
