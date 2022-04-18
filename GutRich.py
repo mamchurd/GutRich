@@ -3,14 +3,18 @@ import numpy as np
 import math as math
 import matplotlib.pyplot as plt
 import datetime as dt
+import geopy as gp
 from scipy.optimize import curve_fit
 
 def dateTranslator(dateStr):
     return dt.datetime.strptime(dateStr, "%Y-%m-%d %H:%M:%S")
 
-def dateDelta(datesStr):
+def ArrayDates(dateStr):
     datesMap = map(dateTranslator, datesStr)
-    dates = list(datesMap)
+    return list(datesMap)
+
+def dateDelta(datesStr):
+    dates = ArrayDates(datesStr)
     return max(dates).year - min(dates).year
 
 def lineFunc(x, k, b):
@@ -48,7 +52,13 @@ plt.plot(linspace, lg_cumsum, "o")
 plt.plot(linspace, lineY)
 
 plt.show()
-P = probability(1, 5, 10, popt)
-print(P)
+P = probability(1, 8, 400, popt)
+print("probability = " + str(P))
+#Посчитать кол-во сценариев при опр магинтуде опр кол-во раз при опр расстоянии 
+#geopy - distance, point
 
-#Посчитать кол-во сценариев при опр магинтуде опр кол-во раз при опр расстоянии
+magnitudes = df.mag.values
+dates = ArrayDates(datesStr)
+latitude = df.mag.latitude
+longitude = df.mag.longitude
+points = [gp.Point(x,y) for (x,y) in (latitude, longitude)]
